@@ -29,6 +29,10 @@ dependencies {
 	runtimeOnly 'com.h2database:h2'
 }
 
+tasks.named('test') {
+	useJUnitPlatform()
+}
+
 def reactAppDir = "$projectDir/src/main/webapp/reactapp"
 
 sourceSets {
@@ -37,10 +41,6 @@ sourceSets {
 			srcDirs = ["$projectDir/src/main/resources"]
 		}
 	}
-}
-
-processResources {
-	dependsOn "copyReactFile"
 }
 
 task installReact(type: Exec) {
@@ -74,6 +74,6 @@ task copyReactFile(type: Copy) {
 	into "$buildDir/resources/main/static"
 }
 
-tasks.named('test') {
-	useJUnitPlatform()
+tasks.bootJar {
+	dependsOn "copyReactFile"
 }
