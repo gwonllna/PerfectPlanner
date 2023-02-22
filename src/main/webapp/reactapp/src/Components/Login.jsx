@@ -28,11 +28,16 @@ import HomeIcon from '@mui/icons-material/Home';
 
 
 export default function Login(){
-    const [values, setValues] = useState({ id: "", password: "", name: "", email: ""  });
-
-    const handleChange = (event) => {
-        const { name, value } = event.target;
-        setValues({ ...values, [name]: value });
+    const [values, setValues] = useState({
+        id: "",
+        password: "",
+        name: "",
+        email: "",
+    });
+    const handleChange = (event)=>{
+        setValues((prevState)=>{
+            return { ...prevState, [event.target.name]: event.target.value}
+        });
       };
     
     const handleClick = async () => {
@@ -41,7 +46,7 @@ export default function Login(){
             alert(Response.data)
         })
         .catch((Error)=>{
-            console.log("통신 실패 + \n" + Error)
+            console.log("이상해요 + \n" + Error)
         })
     };
 
