@@ -19,6 +19,7 @@ public class MemberServiceImpl implements MemberService {
 
     @Override
     public MemberDto join(MemberDto memberDto) {
+        System.out.println("MemberServiceImpl");
         Member member = new Member();
         member.setId(memberDto.getId());
         member.setPassword(memberDto.getPassword());
