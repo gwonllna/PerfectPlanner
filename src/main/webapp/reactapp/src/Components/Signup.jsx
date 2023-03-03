@@ -10,23 +10,30 @@ import IconButton from '@mui/material/IconButton';
 import { Container } from '@mui/material';
 import TextField from '@mui/material/TextField';
 import { useState } from 'react';
-import {Link} from 'react-router-dom';
 
 //axios
 import axios, {isCancel, AxiosError} from 'axios';
 
 //icon
+import AddIcon from '@mui/icons-material/Add';
+import SearchIcon from '@mui/icons-material/Search';
+import MenuIcon from '@mui/icons-material/Menu';
+import MoreIcon from '@mui/icons-material/More';
 import TableChartOutlinedIcon from '@mui/icons-material/TableChartOutlined';
 import AssessmentOutlinedIcon from '@mui/icons-material/AssessmentOutlined';
 import AccountCircleOutlinedIcon from '@mui/icons-material/AccountCircleOutlined';
 import HomeIcon from '@mui/icons-material/Home';
 
-export default function Login(){
+
+
+
+export default function Signup(){
     const [values, setValues] = useState({
         id: "",
         password: "",
+        name: "",
+        email: "",
     });
-
     const handleChange = (event)=>{
         setValues((prevState)=>{
             return { ...prevState, [event.target.name]: event.target.value}
@@ -34,12 +41,12 @@ export default function Login(){
       };
     
     const handleClick = async () => {
-        await axios.post('/member/login', values)
+        await axios.post('/member/join', values)
         .then((Response)=>{
             alert(Response.data)
         })
         .catch((Error)=>{
-            console.log("Login Error! + \n" + Error)
+            console.log("Sign up Error! + \n" + Error)
         })
     };
 
@@ -70,21 +77,33 @@ export default function Login(){
                     label="Password" 
                     variant="outlined" 
                     onChange={handleChange}
-                    sx={{mb:7}}/>
+                    sx={{mb:3}}/>
+                <Typography>이름(닉네임)</Typography>
+                <TextField 
+                    name="name"
+                    label="Name" 
+                    variant="outlined"
+                    onChange={handleChange} 
+                    sx={{mb:3}}/>
+                <Typography>이메일</Typography>
+                <TextField 
+                    name="email"  
+                    label="Email" 
+                    variant="outlined" 
+                    onChange={handleChange}
+                    sx={{mb:2}}/>
             </Box>
 
-            <Box sx={{ justifyContent:'center', display:'flex', mb: 20}}>
+            <Box sx={{ justifyContent:'center', display:'flex'}}>
                 <Box sx={{ display:'flex', flexDirection:'column', width: '60%'}}>
-                    <Button variant="contained" 
-                        onClick = {handleClick}
-                        sx={{backgroundColor:'#C8B5FF', m:1}}>Sign in</Button>
-                    <Link to="../signup" style={{textDecoration: "none", color:'white'}}>
-                        <Button variant="outlined" sx={{borderColor:'#C8B5FF', color: '#C8B5FF', m:1}}>Sign up</Button>
-                    </Link>
+                <Button variant="contained" 
+                    onClick = {handleClick}
+                    sx={{backgroundColor:'#C8B5FF', m:1}}>Sign up</Button>
+                <Button variant="outlined" sx={{borderColor:'#C8B5FF', color: '#C8B5FF', m:1}}>Back</Button>
                 </Box>
             </Box>
             <br></br>
-
+            
             <Box sx={{ flexGrow: 1 }}>
                 <AppBar position="static" sx={{ top: 'auto', bottom: 0, backgroundColor:'#C8B5FF'}}>
                     <Toolbar>

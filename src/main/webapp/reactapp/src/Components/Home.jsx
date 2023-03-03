@@ -19,6 +19,10 @@ import InputBase from '@mui/material/InputBase';
 import { styled, alpha } from '@mui/material/styles';
 import Fab from '@mui/material/Fab';
 
+import { useState } from 'react';
+import Calendar from 'react-calendar';
+import '../Calendar.css';
+
 //icon
 import AddIcon from '@mui/icons-material/Add';
 import SearchIcon from '@mui/icons-material/Search';
@@ -35,6 +39,10 @@ import TextField from '@mui/material/TextField';
 import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
 import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
 import { StaticDatePicker } from '@mui/x-date-pickers/StaticDatePicker';
+import { display } from '@mui/system';
+
+import Dialog from './Dialog';
+
 
 
 
@@ -81,13 +89,15 @@ const StyledInputBase = styled(InputBase)(({ theme }) => ({
   }));
 
 export default function Home(){
+    const [value, onChange] = useState(new Date());
+
     const [open, setOpen] = React.useState(false);
     const anchorRef = React.useRef(null);
 
     const handleToggle = () => {
         setOpen((prevOpen) => !prevOpen);
     };
-
+    
     const handleClose = (event) => {
         if (anchorRef.current && anchorRef.current.contains(event.target)) {
         return;
@@ -115,8 +125,6 @@ export default function Home(){
         prevOpen.current = open;
     }, [open]);
     
-    //calendar
-    const [value, setValue] = React.useState(dayjs('2022-04-07'));
 
 
     return(
@@ -190,21 +198,19 @@ export default function Home(){
                 />
             </Search>
             <br></br>
-            <LocalizationProvider dateAdapter={AdapterDayjs} >
-                <StaticDatePicker
-                    displayStaticWrapperAs="desktop"
-                    openTo="year"
+            <Box sx={{display:'flex', justifyContent:'center'}}>
+                <Calendar
+                    onChange={onChange}
+                    // onClick={handleClickOpen}
                     value={value}
-                    onChange={(newValue) => {
-                    setValue(newValue);
-                    }}
-                    renderInput={(params) => <TextField {...params} />}
                 />
-            </LocalizationProvider>
+            </Box>
+
+            <br></br>
             
-            <Container maxWidth="sm">
-            <Box sx={{ flexGrow: 1}}>
-                <AppBar position="fixed" color="primary" sx={{ top: 'auto', bottom: 0, backgroundColor:'#C8B5FF'}}>
+            <Dialog></Dialog>
+            <Box sx={{ flexGrow: 1 }}>
+                <AppBar position="static" sx={{ top: 'auto', bottom: 0, backgroundColor:'#C8B5FF'}}>
                     <Toolbar>
                     <Box sx={{ display: 'flex', flexGrow: 1, justifyContent: 'space-around'}}>
                         <IconButton color="inherit">
@@ -223,7 +229,6 @@ export default function Home(){
                     </Toolbar>
                 </AppBar>
             </Box>
-            </Container>
 
         </Container>
     );
