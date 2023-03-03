@@ -41,7 +41,7 @@ export default function Login(){
       };
     
     const handleClick = async () => {
-        await axios.post('/member/join', values)
+        await axios.post('/member/login', values)
         .then((Response)=>{
             alert(Response.data)
         })
