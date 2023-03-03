@@ -1,8 +1,11 @@
 package perfectplanner.perfectplanner.controller;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-import perfectplanner.perfectplanner.dto.MemberDto;
+import perfectplanner.perfectplanner.dto.MemberRequestDto;
+import perfectplanner.perfectplanner.dto.MemberResponseDto;
 import perfectplanner.perfectplanner.service.MemberService;
 
 @RestController
@@ -16,7 +19,12 @@ public class MemberController {
     }
 
     @PostMapping("/member/join")
-    public void createMember(@RequestBody MemberDto memberDto) {
-        memberService.join(memberDto);
+    public boolean createMember(@RequestBody MemberRequestDto.CreateInfo memberRequestDto) {
+        return memberService.join(memberRequestDto);
+    }
+
+    @PostMapping("/member/login")
+    public ResponseEntity<MemberResponseDto.LoginInfo> login(@RequestBody MemberRequestDto.LoginInfo memberRequestDto) {
+        return ResponseEntity.status(HttpStatus.OK).body(memberService.login(memberRequestDto));
     }
 }

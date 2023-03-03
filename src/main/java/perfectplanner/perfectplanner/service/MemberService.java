@@ -1,8 +1,11 @@
 package perfectplanner.perfectplanner.service;
 
-import perfectplanner.perfectplanner.dto.MemberDto;
+import perfectplanner.perfectplanner.dto.MemberRequestDto;
+import perfectplanner.perfectplanner.dto.MemberResponseDto;
 
 public interface MemberService {
 
-    MemberDto join(MemberDto memberDto);
+    boolean join(MemberRequestDto.CreateInfo memberRequestDto);
+
+    MemberResponseDto.LoginInfo login(MemberRequestDto.LoginInfo memberRequestDto);
 }
