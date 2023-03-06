@@ -56,7 +56,7 @@ public class ScheduleServiceImpl implements ScheduleService {
     }
 
     @Override
-    public List<ScheduleResponseDto.GetInfo> getDailySchedule(ScheduleRequestDto.GetMonthlyInfo scheduleRequestDto) {
+    public List<ScheduleResponseDto.GetInfo> getDailySchedule(ScheduleRequestDto.GetDailyInfo scheduleRequestDto) {
         List<Schedule> dailyScheduleList = scheduleRepository.findByYearAndMonthAndDay(
                 scheduleRequestDto.getYear(),
                 scheduleRequestDto.getMonth(),

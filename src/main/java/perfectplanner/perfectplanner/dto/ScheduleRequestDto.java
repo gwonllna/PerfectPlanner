@@ -101,13 +101,13 @@ public class ScheduleRequestDto {
         }
     }
 
-    public static class GetMonthlyInfo {
+    public static class GetDailyInfo {
 
         private Long year;
         private Long month;
         private Long day;
 
-        public GetMonthlyInfo(Long year, Long month, Long day) {
+        public GetDailyInfo(Long year, Long month, Long day) {
             this.year = year;
             this.month = month;
             this.day = day;

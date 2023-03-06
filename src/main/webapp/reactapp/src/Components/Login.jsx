@@ -13,7 +13,7 @@ import { useState } from 'react';
 import {Link} from 'react-router-dom';
 
 //axios
-import axios, {isCancel, AxiosError} from 'axios';
+import axios from 'axios';
 
 //icon
 import TableChartOutlinedIcon from '@mui/icons-material/TableChartOutlined';
@@ -21,26 +21,47 @@ import AssessmentOutlinedIcon from '@mui/icons-material/AssessmentOutlined';
 import AccountCircleOutlinedIcon from '@mui/icons-material/AccountCircleOutlined';
 import HomeIcon from '@mui/icons-material/Home';
 
+//react-router-dom
+import { useNavigate } from 'react-router-dom';
+
 export default function Login(){
-    const [values, setValues] = useState({
+    const [loginValues, setLoginValues] = useState({
         id: "",
         password: "",
     });
 
     const handleChange = (event)=>{
-        setValues((prevState)=>{
+        setLoginValues((prevState)=>{
             return { ...prevState, [event.target.name]: event.target.value}
         });
       };
     
     const handleClick = async () => {
-        await axios.post('/member/login', values)
+        console.log(loginValues);
+        await axios.post('/member/login', loginValues)
         .then((Response)=>{
-            alert(Response.data)
+            switch(Response.data.id == null) {
+                case false : 
+                    alert("로그인에 성공하였습니다.");
+                    console.log(Response.data);
+                    goHome(Response.data);
+                    break;
+                default :
+                    alert("로그인에 실패하였습니다.")
+            }
         })
         .catch((Error)=>{
             console.log("Login Error! + \n" + Error)
         })
+    };
+
+    const navigate = useNavigate();
+    const goHome = (data) => {
+        navigate('/home', {
+            state: {
+                userInfo: data
+            }
+        });
     };
 
     return(

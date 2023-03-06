@@ -7,15 +7,12 @@ import DialogContent from '@mui/material/DialogContent';
 import DialogContentText from '@mui/material/DialogContentText';
 import DialogTitle from '@mui/material/DialogTitle';
 
-export default function FormDialog() {
-  const [open, setOpen] = React.useState(false);
+export default function FormDialog(props) {
+  const [open, onClose] = props;
 
-  const handleClickOpen = () => {
-    setOpen(true);
-  };
 
   const handleClose = () => {
-    setOpen(false);
+    onClose();
   };
 
   return (

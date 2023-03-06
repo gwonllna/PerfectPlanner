@@ -7,7 +7,7 @@ import Toolbar from '@mui/material/Toolbar';
 import Typography from '@mui/material/Typography';
 import Button from '@mui/material/Button';
 import IconButton from '@mui/material/IconButton';
-import { Container } from '@mui/material';
+import { Card, Container, DialogTitle, Fade, Popover } from '@mui/material';
 import ClickAwayListener from '@mui/material/ClickAwayListener';
 import Grow from '@mui/material/Grow';
 import Paper from '@mui/material/Paper';
@@ -18,10 +18,12 @@ import Stack from '@mui/material/Stack';
 import InputBase from '@mui/material/InputBase';
 import { styled, alpha } from '@mui/material/styles';
 import Fab from '@mui/material/Fab';
+import Dialog from '@mui/material/Dialog';
 
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import Calendar from 'react-calendar';
 import '../Calendar.css';
+import { useDidMountEffect } from './useDidMountEffect';
 
 //icon
 import AddIcon from '@mui/icons-material/Add';
@@ -41,8 +43,10 @@ import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
 import { StaticDatePicker } from '@mui/x-date-pickers/StaticDatePicker';
 import { display } from '@mui/system';
 
-import Dialog from './Dialog';
-
+//react-router-dom
+import { json, useLocation, useNavigate } from 'react-router-dom';
+import axios, {isCancel, AxiosError} from 'axios';
+import { parseNonNullablePickerDate } from '@mui/x-date-pickers/internals';
 
 
 
@@ -89,41 +93,80 @@ const StyledInputBase = styled(InputBase)(({ theme }) => ({
   }));
 
 export default function Home(){
-    const [value, onChange] = useState(new Date());
+    const [value, setValue] = useState(new Date());
+    const isMounted = React.useRef(false);
+    const [dialogOpen, setDialogOpen] = useState(false);
 
-    const [open, setOpen] = React.useState(false);
-    const anchorRef = React.useRef(null);
-
-    const handleToggle = () => {
-        setOpen((prevOpen) => !prevOpen);
-    };
-    
-    const handleClose = (event) => {
-        if (anchorRef.current && anchorRef.current.contains(event.target)) {
-        return;
+    const [dateValue, setDateValue] = useState(
+        {
+            year: 0,
+            month: 0,
+            day: 0,
         }
+    )
 
-        setOpen(false);
-    };
+    const [dailyPlans, setDailyPlans] = useState([]);
 
-    function handleListKeyDown(event) {
-        if (event.key === 'Tab') {
-          event.preventDefault();
-          setOpen(false);
-        } else if (event.key === 'Escape') {
-          setOpen(false);
+    useDidMountEffect(() => {
+        if(isMounted.current){            
+            handleDailyPlans();
+            setDialogOpen(true);
+        } else {
+            isMounted.current = true;
         }
+    }, [dateValue])
+
+    const handleDialogClose = () => {
+        setDialogOpen(false);
     }
 
-    // return focus to the button when we transitioned from !open -> open
-    const prevOpen = React.useRef(open);
-    React.useEffect(() => {
-        if (prevOpen.current === true && open === false) {
-        anchorRef.current.focus();
-        }
+    const handleDailyPlans = () => {
+        console.log(dateValue);
+        axios.get('/schedule/day', {
+            params: {
+                year: dateValue.year,
+                month: dateValue.month,
+                day: dateValue.day
+            }
+        })
+        .then((Response) => {
+            setDailyPlans((dailyPlans) => [...Response.data]);
+        })
+        .catch((Error)=>{
+            console.log(Error);
+        })
+    }
 
-        prevOpen.current = open;
-    }, [open]);
+    useDidMountEffect(() =>{
+        console.log(dailyPlans);
+    }, [dailyPlans])
+
+    const onClickDay = (value, event) => {
+        setDateValue({
+            year: value.getFullYear(),
+            month: value.getMonth() + 1,
+            day: value.getDate(),
+        });
+    }
+
+
+    const [plannerSelectOpen, setPlannerSelectOpen] = useState(false);
+    const [anchorEl, setAnchorEl] = useState(null);
+    const handleClick = (event) => {
+        setAnchorEl(event.currentTarget);
+        setPlannerSelectOpen((prevOpen) => !prevOpen);
+    }
+    const canBeOpen = plannerSelectOpen && Boolean(anchorEl);
+    const id = canBeOpen ? 'transition-popper' : undefined;
+    const changeHandleClick = (event => {
+        
+    })
+
+
+    const location = useLocation();
+    const userInfo = location.state.userInfo;
+
+
     
 
 
@@ -140,75 +183,93 @@ export default function Home(){
             </Box>
             
             <br></br>
-            
+
             <div>
-                <Button
-                ref={anchorRef}
-                id="composition-button"
-                aria-controls={open ? 'composition-menu' : undefined}
-                aria-expanded={open ? 'true' : undefined}
-                aria-haspopup="true"
-                onClick={handleToggle}
-                sx={{color: 'black'}}
-                >
-                Planner Select
+                <Button aria-describedby={id} type="button" onClick={handleClick} sx={{color: 'black'}}>
+                    Planner Select
                 </Button>
-                <Popper
-                open={open}
-                anchorEl={anchorRef.current}
-                role={undefined}
-                placement="bottom-start"
-                transition
-                disablePortal
-                >
-                {({ TransitionProps, placement }) => (
-                    <Grow
-                    {...TransitionProps}
-                    style={{
-                        transformOrigin:
-                        placement === 'bottom-start' ? 'left top' : 'left bottom',
-                    }}
-                    >
-                    <Paper>
-                        <ClickAwayListener onClickAway={handleClose}>
-                        <MenuList
-                            autoFocusItem={open}
-                            id="composition-menu"
-                            aria-labelledby="composition-button"
-                            onKeyDown={handleListKeyDown}
-                        >
-                            <MenuItem onClick={handleClose}>planner 1</MenuItem>
-                            <MenuItem onClick={handleClose}>planner 2</MenuItem>
-                            <MenuItem onClick={handleClose}>planner 3</MenuItem>
-                        </MenuList>
-                        </ClickAwayListener>
-                    </Paper>
-                    </Grow>
-                )}
+                <Popper id={id} open={plannerSelectOpen} anchorEl={anchorEl} transition>
+                    {({TransitionProps}) => (
+                        <Fade {...TransitionProps} timeout={350}>
+                            <Box
+                            sx={{border: 1, p: 1, bgcolor: 'background.paper'}}
+                            display="flex"
+                            flexDirection={'column'}>
+                                <Button onClick={changeHandleClick} sx={{color: 'black'}}>
+                                    Planner 1
+                                </Button>
+                                <Button onClick={changeHandleClick} sx={{color: 'black'}}>
+                                    Planner 2
+                                </Button>
+                                <Button onClick={changeHandleClick} sx={{color: 'black'}}>
+                                    Planner 3
+                                </Button>
+                            </Box>
+                        </Fade>
+                    )}
                 </Popper>
             </div>
+            
             <br></br>
+
             <Search sx={{border: 1, borderRadius:'5'}}>
                 <SearchIconWrapper>
                 <SearchIcon />
                 </SearchIconWrapper>
                 <StyledInputBase
-                placeholder="Search…"
+                placeholder="Search???"
                 inputProps={{ 'aria-label': 'search' }}
                 />
             </Search>
             <br></br>
             <Box sx={{display:'flex', justifyContent:'center'}}>
                 <Calendar
-                    onChange={onChange}
-                    // onClick={handleClickOpen}
+                    onChange={setValue}
+                    onClickDay={onClickDay}
                     value={value}
                 />
             </Box>
 
             <br></br>
             
-            <Dialog></Dialog>
+            <Dialog
+                // sx={{
+                //     width: '354px',
+                //     height: '395px',
+                //     justifySelf: 'center',
+                //     alignSelf: 'center'
+                // }}
+                open={dialogOpen}>
+                <Card 
+                    sx={{
+                        display: 'flex',
+                        flexDirection: 'column-reverse',
+                        justifyContent: 'space-between',
+                        alignItems: 'center',
+                        width: '325px',
+                        height: '395px',
+                    }}
+                >
+                    <Button onClick={handleDialogClose}>Close</Button>
+                    <Box
+                        sx={{
+                            display: 'flex',
+                            flexDirection: 'column',
+                            alignItems: 'center',
+                            width: '100%',
+                            height: '90%',
+                        }}
+                    >
+                        {dailyPlans.map((dailyPlan) => (
+                            <Box sx={{border: 3, borderRadius: 3, backgroundColor: 'yellow', width: '285px', height: '55px', marginTop: 2}}>
+                                <Typography>{dailyPlan.hour}:{dailyPlan.minute}</Typography>
+                            </Box>
+                        ))}
+                    </Box>
+                </Card>
+            </Dialog>
+
+
             <Box sx={{ flexGrow: 1 }}>
                 <AppBar position="static" sx={{ top: 'auto', bottom: 0, backgroundColor:'#C8B5FF'}}>
                     <Toolbar>

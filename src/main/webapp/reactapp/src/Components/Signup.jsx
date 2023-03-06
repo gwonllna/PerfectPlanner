@@ -14,6 +14,9 @@ import { useState } from 'react';
 //axios
 import axios, {isCancel, AxiosError} from 'axios';
 
+//react-router-dom
+import { useNavigate } from 'react-router-dom';
+
 //icon
 import AddIcon from '@mui/icons-material/Add';
 import SearchIcon from '@mui/icons-material/Search';
@@ -28,27 +31,41 @@ import HomeIcon from '@mui/icons-material/Home';
 
 
 export default function Signup(){
-    const [values, setValues] = useState({
+    const [signupValues, setSignupValues] = useState({
         id: "",
         password: "",
         name: "",
         email: "",
     });
+
     const handleChange = (event)=>{
-        setValues((prevState)=>{
+        setSignupValues((prevState)=>{
             return { ...prevState, [event.target.name]: event.target.value}
         });
-      };
+    };
     
     const handleClick = async () => {
-        await axios.post('/member/join', values)
+        await axios.post('/member/join', signupValues)
         .then((Response)=>{
-            alert(Response.data)
+            switch (Response.data) {
+                case true :
+                    alert("회원가입에 성공하였습니다.");
+                    goLogin();
+                    break;
+                default :
+                    alert("회원가입에 실패하였습니다.");
+            }
         })
         .catch((Error)=>{
             console.log("Sign up Error! + \n" + Error)
         })
     };
+
+    const navigate = useNavigate();
+
+    const goLogin = () => {
+        navigate('/login');
+    }
 
     return(
         <Container maxwidth="sm">
@@ -99,7 +116,10 @@ export default function Signup(){
                 <Button variant="contained" 
                     onClick = {handleClick}
                     sx={{backgroundColor:'#C8B5FF', m:1}}>Sign up</Button>
-                <Button variant="outlined" sx={{borderColor:'#C8B5FF', color: '#C8B5FF', m:1}}>Back</Button>
+                <Button variant="outlined"
+                    sx={{borderColor:'#C8B5FF', color: '#C8B5FF', m:1}}
+                    onClick={goLogin}
+                >Back</Button>
                 </Box>
             </Box>
             <br></br>

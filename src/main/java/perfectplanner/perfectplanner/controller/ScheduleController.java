@@ -25,7 +25,10 @@ public class ScheduleController {
     }
 
     @GetMapping("/schedule/day")
-    public List<ScheduleResponseDto.GetInfo> getDailySchedule(@RequestBody ScheduleRequestDto.GetMonthlyInfo scheduleRequestDto) {
+    public List<ScheduleResponseDto.GetInfo> getDailySchedule(@RequestParam Long year,
+                                                              @RequestParam Long month,
+                                                              @RequestParam Long day) {
+        ScheduleRequestDto.GetDailyInfo scheduleRequestDto = new ScheduleRequestDto.GetDailyInfo(year, month, day);
         return scheduleService.getDailySchedule(scheduleRequestDto);
     }
 

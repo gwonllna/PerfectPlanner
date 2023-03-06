@@ -11,7 +11,7 @@ public interface ScheduleService {
 
     ScheduleResponseDto.GetInfo getSchedule(ScheduleRequestDto.GetInfo scheduleRequestDto);
 
-    List<ScheduleResponseDto.GetInfo> getDailySchedule(ScheduleRequestDto.GetMonthlyInfo scheduleRequestDto);
+    List<ScheduleResponseDto.GetInfo> getDailySchedule(ScheduleRequestDto.GetDailyInfo scheduleRequestDto);
 
     boolean changeSchedule(ScheduleRequestDto.ChangeInfo scheduleRequestDto);
 
