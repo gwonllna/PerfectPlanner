@@ -29,9 +29,12 @@ public class ScheduleServiceImpl implements ScheduleService {
         schedule.setYear(scheduleRequestDto.getYear());
         schedule.setMonth(scheduleRequestDto.getMonth());
         schedule.setDay(scheduleRequestDto.getDay());
-        schedule.setHour(scheduleRequestDto.getHour());
-        schedule.setMinute(scheduleRequestDto.getMinute());
-        schedule.setSecond(scheduleRequestDto.getSecond());
+        schedule.setStartHour(scheduleRequestDto.getStartHour());
+        schedule.setFinishHour(scheduleRequestDto.getFinishHour());
+        schedule.setStartMinute(scheduleRequestDto.getStartMinute());
+        schedule.setFinishMinute(scheduleRequestDto.getFinishMinute());
+        schedule.setStartSecond(scheduleRequestDto.getStartSecond());
+        schedule.setFinishSecond(scheduleRequestDto.getFinishSecond());
 
         scheduleRepository.save(schedule);
 
@@ -49,9 +52,12 @@ public class ScheduleServiceImpl implements ScheduleService {
                 .year(schedule.get().getYear())
                 .month(schedule.get().getMonth())
                 .day(schedule.get().getDay())
-                .hour(schedule.get().getHour())
-                .minute(schedule.get().getMinute())
-                .second(schedule.get().getSecond())
+                .startHour(schedule.get().getStartHour())
+                .finishHour(schedule.get().getFinishHour())
+                .startMinute(schedule.get().getStartMinute())
+                .finishMinute(schedule.get().getFinishMinute())
+                .startSecond(schedule.get().getStartSecond())
+                .finishSecond(schedule.get().getFinishSecond())
                 .build();
     }
 
@@ -69,9 +75,12 @@ public class ScheduleServiceImpl implements ScheduleService {
                     .year(dailySchedule.getYear())
                     .month(dailySchedule.getMonth())
                     .day(dailySchedule.getDay())
-                    .hour(dailySchedule.getHour())
-                    .minute(dailySchedule.getMinute())
-                    .second(dailySchedule.getSecond())
+                    .startHour(dailySchedule.getStartHour())
+                    .finishHour(dailySchedule.getFinishHour())
+                    .startMinute(dailySchedule.getStartMinute())
+                    .finishMinute(dailySchedule.getFinishMinute())
+                    .startSecond(dailySchedule.getStartSecond())
+                    .finishSecond(dailySchedule.getFinishSecond())
                     .build());
 
         }
@@ -94,9 +103,12 @@ public class ScheduleServiceImpl implements ScheduleService {
             newSchedule.setYear(scheduleRequestDto.getYear());
             newSchedule.setMonth(scheduleRequestDto.getMonth());
             newSchedule.setDay(scheduleRequestDto.getDay());
-            newSchedule.setHour(scheduleRequestDto.getHour());
-            newSchedule.setMinute(scheduleRequestDto.getMinute());
-            newSchedule.setSecond(scheduleRequestDto.getSecond());
+            newSchedule.setStartHour(scheduleRequestDto.getStartHour());
+            newSchedule.setFinishHour(scheduleRequestDto.getFinishHour());
+            newSchedule.setStartMinute(scheduleRequestDto.getStartMinute());
+            newSchedule.setFinishMinute(scheduleRequestDto.getFinishMinute());
+            newSchedule.setStartSecond(scheduleRequestDto.getStartSecond());
+            newSchedule.setFinishSecond(scheduleRequestDto.getFinishSecond());
 
             scheduleRepository.save(newSchedule);
 

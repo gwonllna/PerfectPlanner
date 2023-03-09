@@ -10,18 +10,24 @@ public class ScheduleRequestDto {
         private Long year;
         private Long month;
         private Long day;
-        private Long hour;
-        private Long minute;
-        private Long second;
+        private Long startHour;
+        private Long finishHour;
+        private Long startMinute;
+        private Long finishMinute;
+        private Long startSecond;
+        private Long finishSecond;
 
-        public CreateInfo(String name, Long year, Long month, Long day, Long hour, Long minute, Long second) {
+        public CreateInfo(String name, Long year, Long month, Long day, Long startHour, Long finishHour, Long startMinute, Long finishMinute, Long startSecond, Long finishSecond) {
             this.name = name;
             this.year = year;
             this.month = month;
             this.day = day;
-            this.hour = hour;
-            this.minute = minute;
-            this.second = second;
+            this.startHour = startHour;
+            this.finishHour = finishHour;
+            this.startMinute = startMinute;
+            this.finishMinute = finishMinute;
+            this.startSecond = startSecond;
+            this.finishSecond = finishSecond;
         }
 
         public String getName() {
@@ -56,28 +62,52 @@ public class ScheduleRequestDto {
             this.day = day;
         }
 
-        public Long getHour() {
-            return hour;
+        public Long getStartHour() {
+            return startHour;
         }
 
-        public void setHour(Long hour) {
-            this.hour = hour;
+        public void setStartHour(Long startHour) {
+            this.startHour = startHour;
         }
 
-        public Long getMinute() {
-            return minute;
+        public Long getFinishHour() {
+            return finishHour;
         }
 
-        public void setMinute(Long minute) {
-            this.minute = minute;
+        public void setFinishHour(Long finishHour) {
+            this.finishHour = finishHour;
         }
 
-        public Long getSecond() {
-            return second;
+        public Long getStartMinute() {
+            return startMinute;
         }
 
-        public void setSecond(Long second) {
-            this.second = second;
+        public void setStartMinute(Long startMinute) {
+            this.startMinute = startMinute;
+        }
+
+        public Long getFinishMinute() {
+            return finishMinute;
+        }
+
+        public void setFinishMinute(Long finishMinute) {
+            this.finishMinute = finishMinute;
+        }
+
+        public Long getStartSecond() {
+            return startSecond;
+        }
+
+        public void setStartSecond(Long startSecond) {
+            this.startSecond = startSecond;
+        }
+
+        public Long getFinishSecond() {
+            return finishSecond;
+        }
+
+        public void setFinishSecond(Long finishSecond) {
+            this.finishSecond = finishSecond;
         }
     }
 
@@ -145,19 +175,25 @@ public class ScheduleRequestDto {
         private Long year;
         private Long month;
         private Long day;
-        private Long hour;
-        private Long minute;
-        private Long second;
+        private Long startHour;
+        private Long finishHour;
+        private Long startMinute;
+        private Long finishMinute;
+        private Long startSecond;
+        private Long finishSecond;
 
-        public ChangeInfo(Long id, String name, Long year, Long month, Long day, Long hour, Long minute, Long second) {
+        public ChangeInfo(Long id, String name, Long year, Long month, Long day, Long startHour, Long finishHour, Long startMinute, Long finishMinute, Long startSecond, Long finishSecond) {
             this.id = id;
             this.name = name;
             this.year = year;
             this.month = month;
             this.day = day;
-            this.hour = hour;
-            this.minute = minute;
-            this.second = second;
+            this.startHour = startHour;
+            this.finishHour = finishHour;
+            this.startMinute = startMinute;
+            this.finishMinute = finishMinute;
+            this.startSecond = startSecond;
+            this.finishSecond = finishSecond;
         }
 
         public Long getId() {
@@ -200,28 +236,52 @@ public class ScheduleRequestDto {
             this.day = day;
         }
 
-        public Long getHour() {
-            return hour;
+        public Long getStartHour() {
+            return startHour;
         }
 
-        public void setHour(Long hour) {
-            this.hour = hour;
+        public void setStartHour(Long startHour) {
+            this.startHour = startHour;
         }
 
-        public Long getMinute() {
-            return minute;
+        public Long getFinishHour() {
+            return finishHour;
         }
 
-        public void setMinute(Long minute) {
-            this.minute = minute;
+        public void setFinishHour(Long finishHour) {
+            this.finishHour = finishHour;
         }
 
-        public Long getSecond() {
-            return second;
+        public Long getStartMinute() {
+            return startMinute;
         }
 
-        public void setSecond(Long second) {
-            this.second = second;
+        public void setStartMinute(Long startMinute) {
+            this.startMinute = startMinute;
+        }
+
+        public Long getFinishMinute() {
+            return finishMinute;
+        }
+
+        public void setFinishMinute(Long finishMinute) {
+            this.finishMinute = finishMinute;
+        }
+
+        public Long getStartSecond() {
+            return startSecond;
+        }
+
+        public void setStartSecond(Long startSecond) {
+            this.startSecond = startSecond;
+        }
+
+        public Long getFinishSecond() {
+            return finishSecond;
+        }
+
+        public void setFinishSecond(Long finishSecond) {
+            this.finishSecond = finishSecond;
         }
     }
 
@@ -230,6 +290,10 @@ public class ScheduleRequestDto {
         private Long id;
 
         public DeleteInfo() {
+        }
+
+        public DeleteInfo(Long id) {
+            this.id = id;
         }
 
         public Long getId() {

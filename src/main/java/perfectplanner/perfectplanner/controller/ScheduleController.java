@@ -20,7 +20,8 @@ public class ScheduleController {
 
 
     @GetMapping("/schedule")
-    public ScheduleResponseDto.GetInfo getSchedule(@RequestBody ScheduleRequestDto.GetInfo scheduleRequestDto) {
+    public ScheduleResponseDto.GetInfo getSchedule(@RequestParam Long id) {
+        ScheduleRequestDto.GetInfo scheduleRequestDto = new ScheduleRequestDto.GetInfo(id);
         return scheduleService.getSchedule(scheduleRequestDto);
     }
 
@@ -43,7 +44,8 @@ public class ScheduleController {
     }
 
     @DeleteMapping("/schedule")
-    public boolean deleteSchedule(@RequestBody ScheduleRequestDto.DeleteInfo scheduleRequestDto) {
+    public boolean deleteSchedule(@RequestParam Long id) {
+        ScheduleRequestDto.DeleteInfo scheduleRequestDto = new ScheduleRequestDto.DeleteInfo(id);
         return scheduleService.deleteSchedule(scheduleRequestDto);
     }
 }

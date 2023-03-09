@@ -21,14 +21,23 @@ public class Schedule {
     @Column(name = "DAYS")
     private Long day;
 
-    @Column(name = "HOURS")
-    private Long hour;
+    @Column(name = "START_HOURS")
+    private Long startHour;
 
-    @Column(name = "MINUTES")
-    private Long minute;
+    @Column(name = "FINISH_HOURS")
+    private Long finishHour;
 
-    @Column(name = "SECONDS")
-    private Long second;
+    @Column(name = "START_MINUTES")
+    private Long startMinute;
+
+    @Column(name = "FINISH_MINUTES")
+    private Long finishMinute;
+
+    @Column(name = "START_SECONDS")
+    private Long startSecond;
+
+    @Column(name = "FINISH_SECONDS")
+    private Long finishSecond;
 
     public Long getId() {
         return id;
@@ -70,27 +79,51 @@ public class Schedule {
         this.day = day;
     }
 
-    public Long getHour() {
-        return hour;
+    public Long getStartHour() {
+        return startHour;
     }
 
-    public void setHour(Long hour) {
-        this.hour = hour;
+    public void setStartHour(Long startHour) {
+        this.startHour = startHour;
     }
 
-    public Long getMinute() {
-        return minute;
+    public Long getFinishHour() {
+        return finishHour;
     }
 
-    public void setMinute(Long minute) {
-        this.minute = minute;
+    public void setFinishHour(Long finishHour) {
+        this.finishHour = finishHour;
     }
 
-    public Long getSecond() {
-        return second;
+    public Long getStartMinute() {
+        return startMinute;
     }
 
-    public void setSecond(Long second) {
-        this.second = second;
+    public void setStartMinute(Long startMinute) {
+        this.startMinute = startMinute;
+    }
+
+    public Long getFinishMinute() {
+        return finishMinute;
+    }
+
+    public void setFinishMinute(Long finishMinute) {
+        this.finishMinute = finishMinute;
+    }
+
+    public Long getStartSecond() {
+        return startSecond;
+    }
+
+    public void setStartSecond(Long startSecond) {
+        this.startSecond = startSecond;
+    }
+
+    public Long getFinishSecond() {
+        return finishSecond;
+    }
+
+    public void setFinishSecond(Long finishSecond) {
+        this.finishSecond = finishSecond;
     }
 }

@@ -63,6 +63,9 @@ export default function Login(){
             }
         });
     };
+    const goSignup = () => {
+        navigate('/signup');
+    }
 
     return(
         <Container maxwidth="sm">
@@ -99,9 +102,7 @@ export default function Login(){
                     <Button variant="contained" 
                         onClick = {handleClick}
                         sx={{backgroundColor:'#C8B5FF', m:1}}>Sign in</Button>
-                    <Link to="../signup" style={{textDecoration: "none", color:'white'}}>
-                        <Button variant="outlined" sx={{borderColor:'#C8B5FF', color: '#C8B5FF', m:1}}>Sign up</Button>
-                    </Link>
+                        <Button variant="outlined" onClick={goSignup} sx={{borderColor:'#C8B5FF', color: '#C8B5FF', m:1}}>Sign up</Button>
                 </Box>
             </Box>
             <br></br>
